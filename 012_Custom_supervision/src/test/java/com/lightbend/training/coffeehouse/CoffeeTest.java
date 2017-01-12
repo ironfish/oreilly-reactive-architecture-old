@@ -1,9 +1,10 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import com.google.common.collect.ImmutableSet;
+import com.lightbend.training.coffeehouse.Coffee;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
-import static com.typesafe.training.coffeehouse.Coffee.*;
+import static com.lightbend.training.coffeehouse.Coffee.*;
 
 public class CoffeeTest {
 

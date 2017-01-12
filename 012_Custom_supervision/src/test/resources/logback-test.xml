@@ -18,7 +18,7 @@
     
     <logger name="akka" level="ERROR" />
 
-    <logger name="com.typesafe.training.coffeehouse" level="warn" additivity="false">
+    <logger name="com.lightbend.training.coffeehouse" level="warn" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </logger>
