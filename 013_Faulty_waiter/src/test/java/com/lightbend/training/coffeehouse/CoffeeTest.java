@@ -1,16 +1,17 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
+
+import static com.lightbend.training.coffeehouse.Coffee.*;
 import static org.assertj.core.api.Assertions.*;
-import static com.typesafe.training.coffeehouse.Coffee.*;
 
 public class CoffeeTest {
 
   @Test
   public void coffeesShouldContains_AkkaccinoCaffeJavaAndMochaPlay() {
     assertThat(Coffee.COFFEES).isEqualTo(ImmutableSet.of(
-            new Akkaccino(), new CaffeJava(), new MochaPlay()));
+            new Coffee.Akkaccino(), new CaffeJava(), new Coffee.MochaPlay()));
   }
 
   @Test

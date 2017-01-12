@@ -1,4 +1,4 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
