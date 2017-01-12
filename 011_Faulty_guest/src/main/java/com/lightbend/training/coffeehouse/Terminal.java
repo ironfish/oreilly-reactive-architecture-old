@@ -1,12 +1,12 @@
 /**
  * Copyright © 2014, 2015 Typesafe, Inc. All rights reserved. [http://www.typesafe.com]
  */
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
-import com.typesafe.training.coffeehouse.TerminalCommand.Guest;
-import com.typesafe.training.coffeehouse.TerminalCommand.Quit;
-import com.typesafe.training.coffeehouse.TerminalCommand.Status;
-import com.typesafe.training.coffeehouse.TerminalCommand.Unknown;
+import com.lightbend.training.coffeehouse.TerminalCommand.Guest;
+import com.lightbend.training.coffeehouse.TerminalCommand.Quit;
+import com.lightbend.training.coffeehouse.TerminalCommand.Status;
+import com.lightbend.training.coffeehouse.TerminalCommand.Unknown;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
