@@ -1,10 +1,8 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 
 import akka.actor.*;
-import akka.japi.pf.ReceiveBuilder;
 import akka.testkit.JavaTestKit;
-import com.typesafe.training.coffeehouse.CoffeeHouseApp;
 import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 

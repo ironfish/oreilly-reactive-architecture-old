@@ -16,7 +16,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.typesafe.training.coffeehouse" level="debug" additivity="false">
+    <logger name="com.lightbend.training.coffeehouse" level="debug" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </logger>
