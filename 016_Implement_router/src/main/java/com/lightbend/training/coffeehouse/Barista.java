@@ -2,7 +2,7 @@
  * Copyright © 2014 Typesafe, Inc. All rights reserved.
  */
 
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;

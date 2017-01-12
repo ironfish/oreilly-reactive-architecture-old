@@ -1,10 +1,10 @@
-val akkaVer = "2.4.0"
-val assertjVer = "3.0.0"
+val akkaVer = "2.4.16"
+val assertjVer = "3.6.1"
 val junitVer = "0.11"
-val logbackVer = "1.1.3"
-val quavaVer = "18.0"
-val scalaVer = "2.11.7"
-val scalaParsersVer= "1.0.4"
+val logbackVer = "1.1.8"
+val quavaVer = "20.0"
+val scalaVer = "2.11.8"
+val scalaParsersVer= "1.0.5"
 
 lazy val compileOptions = Seq(
   "-unchecked",
@@ -27,14 +27,14 @@ lazy val commonDependencies = Seq(
 
 lazy val fttas = project in file(".")
 name := "coffee-house"
-organization := "com.typesafe.training"
+organization := "com.lightbend.training"
 version := "1.0.0"
 scalaVersion := scalaVer
 scalacOptions ++= compileOptions
 unmanagedSourceDirectories in Compile := List((javaSource in Compile).value)
 unmanagedSourceDirectories in Test := List((javaSource in Test).value)
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v")
-EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.ManagedClasses
 EclipseKeys.eclipseOutput := Some(".target")
 EclipseKeys.withSource := true
 parallelExecution in Test := false
