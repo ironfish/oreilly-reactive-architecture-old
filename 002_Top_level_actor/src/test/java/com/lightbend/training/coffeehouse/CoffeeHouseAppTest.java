@@ -1,9 +1,7 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 
-import akka.actor.ActorIdentity;
 import akka.testkit.JavaTestKit;
-import com.typesafe.training.coffeehouse.CoffeeHouseApp;
 import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 

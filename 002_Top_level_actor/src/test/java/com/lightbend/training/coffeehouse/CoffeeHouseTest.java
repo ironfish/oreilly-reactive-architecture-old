@@ -1,4 +1,4 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;

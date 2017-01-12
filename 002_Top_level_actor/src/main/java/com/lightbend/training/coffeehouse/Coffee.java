@@ -1,7 +1,7 @@
 /**
  * Copyright © 2014, 2015 Typesafe, Inc. All rights reserved. [http://www.typesafe.com]
  */
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import com.google.common.collect.ImmutableSet;
 
