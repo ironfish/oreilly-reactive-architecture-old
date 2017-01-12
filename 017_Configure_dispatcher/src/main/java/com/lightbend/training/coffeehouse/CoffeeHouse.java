@@ -2,14 +2,9 @@
  * Copyright © 2014, 2015 Typesafe, Inc. All rights reserved. [http://www.typesafe.com]
  */
 
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
-import akka.actor.AbstractLoggingActor;
-import akka.actor.ActorRef;
-import akka.actor.OneForOneStrategy;
-import akka.actor.Props;
-import akka.actor.SupervisorStrategy;
-import akka.actor.Terminated;
+import akka.actor.*;
 import akka.japi.pf.DeciderBuilder;
 import akka.japi.pf.ReceiveBuilder;
 import akka.routing.FromConfig;

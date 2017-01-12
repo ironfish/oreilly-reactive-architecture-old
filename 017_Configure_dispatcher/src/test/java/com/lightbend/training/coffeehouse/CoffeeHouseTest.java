@@ -1,15 +1,11 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import akka.actor.AbstractActor;
-import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 import akka.testkit.JavaTestKit;
 import org.junit.Test;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CoffeeHouseTest extends BaseAkkaTestCase {
 
