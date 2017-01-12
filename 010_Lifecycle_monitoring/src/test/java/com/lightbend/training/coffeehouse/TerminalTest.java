@@ -1,5 +1,8 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
+import com.lightbend.training.coffeehouse.Coffee;
+import com.lightbend.training.coffeehouse.Terminal;
+import com.lightbend.training.coffeehouse.TerminalCommand;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 

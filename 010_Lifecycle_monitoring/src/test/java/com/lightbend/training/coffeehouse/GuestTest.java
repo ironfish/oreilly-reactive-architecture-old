@@ -1,10 +1,8 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import akka.actor.ActorRef;
-import akka.actor.Props;
 import akka.testkit.JavaTestKit;
 import org.junit.Test;
-import scala.concurrent.duration.FiniteDuration;
 
 public class GuestTest extends BaseAkkaTestCase {
 
