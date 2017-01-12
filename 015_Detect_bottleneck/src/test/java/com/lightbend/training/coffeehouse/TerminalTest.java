@@ -1,13 +1,15 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import static org.assertj.core.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TerminalTest {
 
   @Test
   public void shouldCreateCorrectGuestFromCommand() {
-    assertThat(Terminal.create("guest")).isEqualTo(new TerminalCommand.Guest(1, new Coffee.Akkaccino(), Integer.MAX_VALUE));
+    Assertions.assertThat(Terminal.create("guest")).isEqualTo(new TerminalCommand.Guest(1, new Coffee.Akkaccino(), Integer.MAX_VALUE));
     assertThat(Terminal.create("2 g")).isEqualTo(new TerminalCommand.Guest(2, new Coffee.Akkaccino(), Integer.MAX_VALUE));
     assertThat(Terminal.create("g m")).isEqualTo(new TerminalCommand.Guest(1, new Coffee.MochaPlay(), Integer.MAX_VALUE));
     assertThat(Terminal.create("g 1")).isEqualTo(new TerminalCommand.Guest(1, new Coffee.Akkaccino(), 1));

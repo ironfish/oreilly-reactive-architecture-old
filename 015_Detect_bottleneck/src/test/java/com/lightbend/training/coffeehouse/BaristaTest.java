@@ -1,4 +1,4 @@
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import akka.actor.ActorRef;
 import akka.testkit.JavaTestKit;
@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaristaTest extends BaseAkkaTestCase {

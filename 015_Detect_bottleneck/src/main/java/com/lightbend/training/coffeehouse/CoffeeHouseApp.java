@@ -1,7 +1,7 @@
 /**
  * Copyright © 2014, 2015 Typesafe, Inc. All rights reserved. [http://www.typesafe.com]
  */
-package com.typesafe.training.coffeehouse;
+package com.lightbend.training.coffeehouse;
 
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
@@ -9,9 +9,9 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.Await;
 import scala.concurrent.duration.Duration;
-import akka.japi.pf.ReceiveBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
