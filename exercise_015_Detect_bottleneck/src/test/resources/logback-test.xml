@@ -15,8 +15,8 @@
             <pattern>%date{HH:mm:ss} %-5level [%X{akkaSource}] - %msg%n</pattern>
         </encoder>
     </appender>
-    
-    <logger name="akka" level="ERROR" />
+
+    <logger name="akka" level="ERROR"/>
 
     <logger name="com.lightbend.training.coffeehouse" level="warn" additivity="false">
         <appender-ref ref="console"/>
