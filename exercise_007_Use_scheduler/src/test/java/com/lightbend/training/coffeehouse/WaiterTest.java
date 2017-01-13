@@ -6,12 +6,12 @@ import org.junit.Test;
 
 public class WaiterTest extends BaseAkkaTestCase {
 
-  @Test
-  public void sendingServeCoffeeShouldResultInCoffeeServedResponse() {
-    new JavaTestKit(system) {{
-      ActorRef waiter = system.actorOf(Waiter.props());
-      waiter.tell(new Waiter.ServeCoffee(new Coffee.Akkaccino()), getRef());
-      expectMsgEquals(new Waiter.CoffeeServed(new Coffee.Akkaccino()));
-    }};
-  }
+    @Test
+    public void sendingServeCoffeeShouldResultInCoffeeServedResponse() {
+        new JavaTestKit(system) {{
+            ActorRef waiter = system.actorOf(Waiter.props());
+            waiter.tell(new Waiter.ServeCoffee(new Coffee.Akkaccino()), getRef());
+            expectMsgEquals(new Waiter.CoffeeServed(new Coffee.Akkaccino()));
+        }};
+    }
 }
