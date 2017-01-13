@@ -14,13 +14,13 @@ import java.util.Random;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class Barista extends AbstractLoggingActor{
+public class Barista extends AbstractLoggingActor {
 
     private final FiniteDuration prepareCoffeeDuration;
 
     private final int accuracy;
 
-    public Barista(FiniteDuration prepareCoffeeDuration, int accuracy){
+    public Barista(FiniteDuration prepareCoffeeDuration, int accuracy) {
         this.prepareCoffeeDuration = prepareCoffeeDuration;
         this.accuracy = accuracy;
 
@@ -33,21 +33,21 @@ public class Barista extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy){
+    public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy) {
         return Props.create(Barista.class, () -> new Barista(prepareCoffeeDuration, accuracy));
     }
 
-    private Coffee pickCoffee(Coffee coffee){
+    private Coffee pickCoffee(Coffee coffee) {
         return new Random().nextInt(100) < accuracy ? coffee : Coffee.orderOther(coffee);
     }
 
-    public static final class PrepareCoffee{
+    public static final class PrepareCoffee {
 
         public final Coffee coffee;
 
         public final ActorRef guest;
 
-        public PrepareCoffee(final Coffee coffee, final ActorRef guest){
+        public PrepareCoffee(final Coffee coffee, final ActorRef guest) {
             checkNotNull(coffee, "Coffee cannot be null");
             checkNotNull(guest, "Guest cannot be null");
             this.coffee = coffee;
@@ -55,25 +55,25 @@ public class Barista extends AbstractLoggingActor{
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "PrepareCoffee{"
-                + "coffee=" + coffee + ", "
-                + "guest=" + guest + "}";
+                    + "coffee=" + coffee + ", "
+                    + "guest=" + guest + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof PrepareCoffee) {
                 PrepareCoffee that = (PrepareCoffee) o;
                 return (this.coffee.equals(that.coffee))
-                    && (this.guest.equals(that.guest));
+                        && (this.guest.equals(that.guest));
             }
             return false;
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= coffee.hashCode();
@@ -83,13 +83,13 @@ public class Barista extends AbstractLoggingActor{
         }
     }
 
-    public static final class CoffeePrepared{
+    public static final class CoffeePrepared {
 
         public final Coffee coffee;
 
         public final ActorRef guest;
 
-        public CoffeePrepared(final Coffee coffee, final ActorRef guest){
+        public CoffeePrepared(final Coffee coffee, final ActorRef guest) {
             checkNotNull(coffee, "Coffee cannot be null");
             checkNotNull(guest, "Guest cannot be null");
             this.coffee = coffee;
@@ -97,25 +97,25 @@ public class Barista extends AbstractLoggingActor{
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "CoffeePrepared{"
-                + "coffee=" + coffee + ", "
-                + "guest=" + guest + "}";
+                    + "coffee=" + coffee + ", "
+                    + "guest=" + guest + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof CoffeePrepared) {
                 CoffeePrepared that = (CoffeePrepared) o;
                 return (this.coffee.equals(that.coffee))
-                    && (this.guest.equals(that.guest));
+                        && (this.guest.equals(that.guest));
             }
             return false;
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= coffee.hashCode();
