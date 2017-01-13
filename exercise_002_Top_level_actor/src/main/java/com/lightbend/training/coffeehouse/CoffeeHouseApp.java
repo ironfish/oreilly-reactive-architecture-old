@@ -21,7 +21,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CoffeeHouseApp implements Terminal{
+public class CoffeeHouseApp implements Terminal {
 
     public static final Pattern optPattern = Pattern.compile("(\\S+)=(\\S+)");
 
@@ -32,13 +32,13 @@ public class CoffeeHouseApp implements Terminal{
     @SuppressWarnings("unused")
     private final ActorRef coffeeHouse;
 
-    public CoffeeHouseApp(final ActorSystem system){
+    public CoffeeHouseApp(final ActorSystem system) {
         this.system = system;
         log = Logging.getLogger(system, getClass().getName());
         coffeeHouse = createCoffeeHouse();
     }
 
-    public static void main(final String[] args) throws Exception{
+    public static void main(final String[] args) throws Exception {
         final Map<String, String> opts = argsToOpts(Arrays.asList(args));
         applySystemProperties(opts);
         final String name = opts.getOrDefault("name", "coffee-house");
@@ -48,7 +48,7 @@ public class CoffeeHouseApp implements Terminal{
         coffeeHouseApp.run();
     }
 
-    public static Map<String, String> argsToOpts(final List<String> args){
+    public static Map<String, String> argsToOpts(final List<String> args) {
         final Map<String, String> opts = new HashMap<>();
         for (final String arg : args) {
             final Matcher matcher = optPattern.matcher(arg);
@@ -57,7 +57,7 @@ public class CoffeeHouseApp implements Terminal{
         return opts;
     }
 
-    public static void applySystemProperties(final Map<String, String> opts){
+    public static void applySystemProperties(final Map<String, String> opts) {
         opts.forEach((key, value) -> {
             if (key.startsWith("-D")) System.setProperty(key.substring(2), value);
         });
@@ -65,18 +65,18 @@ public class CoffeeHouseApp implements Terminal{
 
     private void run() throws IOException, TimeoutException, InterruptedException {
         log.warning(
-            String.format("{} running%nEnter commands into the terminal, e.g. 'q' or 'quit'"),
-            getClass().getSimpleName()
+                String.format("{} running%nEnter commands into the terminal, e.g. 'q' or 'quit'"),
+                getClass().getSimpleName()
         );
         commandLoop();
         Await.ready(system.whenTerminated(), Duration.Inf());
     }
 
-    protected ActorRef createCoffeeHouse(){
+    protected ActorRef createCoffeeHouse() {
         return system.actorOf(CoffeeHouse.props(), "coffee-house");
     }
 
-    private void commandLoop() throws IOException{
+    private void commandLoop() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             TerminalCommand tc = Terminal.create(in.readLine());
@@ -95,9 +95,9 @@ public class CoffeeHouseApp implements Terminal{
         }
     }
 
-    protected void createGuest(int count, Coffee coffee, int maxCoffeeCount){
+    protected void createGuest(int count, Coffee coffee, int maxCoffeeCount) {
     }
 
-    protected void getStatus(){
+    protected void getStatus() {
     }
 }
