@@ -4,7 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
 
 import static com.lightbend.training.coffeehouse.Coffee.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 public class CoffeeTest {
 

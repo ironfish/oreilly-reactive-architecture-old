@@ -1,7 +1,8 @@
 package com.lightbend.training.coffeehouse;
 
 
-import akka.actor.*;
+import akka.actor.AbstractLoggingActor;
+import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import akka.testkit.JavaTestKit;
 import org.assertj.core.data.MapEntry;

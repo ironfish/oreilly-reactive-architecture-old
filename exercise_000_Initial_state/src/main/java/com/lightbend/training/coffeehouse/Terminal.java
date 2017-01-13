@@ -3,11 +3,6 @@
  */
 package com.lightbend.training.coffeehouse;
 
-import com.lightbend.training.coffeehouse.TerminalCommand.Guest;
-import com.lightbend.training.coffeehouse.TerminalCommand.Quit;
-import com.lightbend.training.coffeehouse.TerminalCommand.Status;
-import com.lightbend.training.coffeehouse.TerminalCommand.Unknown;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

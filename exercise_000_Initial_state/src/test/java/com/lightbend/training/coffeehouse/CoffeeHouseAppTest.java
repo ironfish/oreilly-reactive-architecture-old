@@ -1,13 +1,14 @@
 package com.lightbend.training.coffeehouse;
 
 
+import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import static org.assertj.core.api.Assertions.*;
-import org.assertj.core.data.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoffeeHouseAppTest {
 
