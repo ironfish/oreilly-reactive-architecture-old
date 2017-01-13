@@ -16,46 +16,46 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class CoffeeHouse extends AbstractLoggingActor{
+public class CoffeeHouse extends AbstractLoggingActor {
 
     private final FiniteDuration baristaPrepareCoffeeDuration =
-        Duration.create(
-            context().system().settings().config().getDuration(
-                "coffee-house.barista.prepare-coffee-duration", MILLISECONDS), MILLISECONDS);
+            Duration.create(
+                    context().system().settings().config().getDuration(
+                            "coffee-house.barista.prepare-coffee-duration", MILLISECONDS), MILLISECONDS);
 
     private final FiniteDuration guestFinishCoffeeDuration =
-        Duration.create(
-            context().system().settings().config().getDuration(
-                "coffee-house.guest.finish-coffee-duration", MILLISECONDS), MILLISECONDS);
+            Duration.create(
+                    context().system().settings().config().getDuration(
+                            "coffee-house.guest.finish-coffee-duration", MILLISECONDS), MILLISECONDS);
 
     private final int baristaAccuracy =
-        context().system().settings().config().getInt("coffee-house.barista.accuracy");
+            context().system().settings().config().getInt("coffee-house.barista.accuracy");
 
     private final int waiterMaxComplaintCount =
-        context().system().settings().config().getInt("coffee-house.waiter.max-complaint-count");
+            context().system().settings().config().getInt("coffee-house.waiter.max-complaint-count");
 
     private final ActorRef barista =
-        createBarista();
+            createBarista();
 
     private final ActorRef waiter =
-        createWaiter();
+            createWaiter();
 
     private final Map<ActorRef, Integer> guestCaffeineBookkeeper = new ConcurrentHashMap<>();
 
     private final int caffeineLimit;
 
     private SupervisorStrategy strategy = new OneForOneStrategy(false, DeciderBuilder.
-        match(Guest.CaffeineException.class, e ->
-                SupervisorStrategy.stop()
-        ).
-        match(Waiter.FrustratedException.class, (Waiter.FrustratedException e) -> {
-            barista.tell(new Barista.PrepareCoffee(e.coffee, e.guest), sender());
-            return SupervisorStrategy.restart();
-        }).
-        matchAny(e -> SupervisorStrategy.restart()).build()
+            match(Guest.CaffeineException.class, e ->
+                    SupervisorStrategy.stop()
+            ).
+            match(Waiter.FrustratedException.class, (Waiter.FrustratedException e) -> {
+                barista.tell(new Barista.PrepareCoffee(e.coffee, e.guest), sender());
+                return SupervisorStrategy.restart();
+            }).
+            matchAny(e -> SupervisorStrategy.restart()).build()
     );
 
-    public CoffeeHouse(int caffeineLimit){
+    public CoffeeHouse(int caffeineLimit) {
         log().debug("CoffeeHouse Open");
         this.caffeineLimit = caffeineLimit;
 
@@ -80,16 +80,16 @@ public class CoffeeHouse extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(int caffeineLimit){
+    public static Props props(int caffeineLimit) {
         return Props.create(CoffeeHouse.class, () -> new CoffeeHouse(caffeineLimit));
     }
 
     @Override
-    public SupervisorStrategy supervisorStrategy(){
+    public SupervisorStrategy supervisorStrategy() {
         return strategy;
     }
 
-    private boolean coffeeApproved(ApproveCoffee approveCoffee){
+    private boolean coffeeApproved(ApproveCoffee approveCoffee) {
         final int guestCaffeineCount = guestCaffeineBookkeeper.get(approveCoffee.guest);
         if (guestCaffeineCount < caffeineLimit) {
             guestCaffeineBookkeeper.put(approveCoffee.guest, guestCaffeineCount + 1);
@@ -98,60 +98,60 @@ public class CoffeeHouse extends AbstractLoggingActor{
         return false;
     }
 
-    private void addGuestToBookkeeper(ActorRef guest){
+    private void addGuestToBookkeeper(ActorRef guest) {
         guestCaffeineBookkeeper.put(guest, 0);
         log().debug("Guest {} added to bookkeeper", guest);
     }
 
-    private void removeGuestFromBookkeeper(ActorRef guest){
+    private void removeGuestFromBookkeeper(ActorRef guest) {
         guestCaffeineBookkeeper.remove(guest);
         log().debug("Removed guest {} from bookkeeper", guest);
     }
 
-    protected ActorRef createBarista(){
+    protected ActorRef createBarista() {
         return context().actorOf(Barista.props(baristaPrepareCoffeeDuration, baristaAccuracy), "barista");
     }
 
-    protected ActorRef createWaiter(){
+    protected ActorRef createWaiter() {
         return context().actorOf(Waiter.props(self(), barista, waiterMaxComplaintCount), "waiter");
     }
 
-    protected ActorRef createGuest(Coffee favoriteCoffee, int caffeineLimit){
+    protected ActorRef createGuest(Coffee favoriteCoffee, int caffeineLimit) {
         return context().actorOf(Guest.props(waiter, favoriteCoffee, guestFinishCoffeeDuration, caffeineLimit));
     }
 
-    public static final class CreateGuest{
+    public static final class CreateGuest {
 
         public final Coffee favoriteCoffee;
 
         public final int caffeineLimit;
 
-        public CreateGuest(final Coffee favoriteCoffee, final int caffeineLimit){
+        public CreateGuest(final Coffee favoriteCoffee, final int caffeineLimit) {
             checkNotNull(favoriteCoffee, "Favorite coffee cannot be null");
             this.favoriteCoffee = favoriteCoffee;
             this.caffeineLimit = caffeineLimit;
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "CreateGuest{"
-                + "favoriteCoffee=" + favoriteCoffee + ", "
-                + "caffeineLimit=" + caffeineLimit + "}";
+                    + "favoriteCoffee=" + favoriteCoffee + ", "
+                    + "caffeineLimit=" + caffeineLimit + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof CreateGuest) {
                 CreateGuest that = (CreateGuest) o;
                 return (this.favoriteCoffee.equals(that.favoriteCoffee))
-                    && (this.caffeineLimit == that.caffeineLimit);
+                        && (this.caffeineLimit == that.caffeineLimit);
             }
             return false;
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= favoriteCoffee.hashCode();
@@ -161,13 +161,13 @@ public class CoffeeHouse extends AbstractLoggingActor{
         }
     }
 
-    public static final class ApproveCoffee{
+    public static final class ApproveCoffee {
 
         public final Coffee coffee;
 
         public final ActorRef guest;
 
-        public ApproveCoffee(final Coffee coffee, final ActorRef guest){
+        public ApproveCoffee(final Coffee coffee, final ActorRef guest) {
             checkNotNull(coffee, "Coffee cannot be null");
             checkNotNull(guest, "Guest cannot be null");
             this.coffee = coffee;
@@ -175,25 +175,25 @@ public class CoffeeHouse extends AbstractLoggingActor{
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "ApproveCoffee{"
-                + "coffee=" + coffee + ", "
-                + "guest=" + guest + "}";
+                    + "coffee=" + coffee + ", "
+                    + "guest=" + guest + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof ApproveCoffee) {
                 ApproveCoffee that = (ApproveCoffee) o;
                 return (this.coffee.equals(that.coffee))
-                    && (this.guest.equals(that.guest));
+                        && (this.guest.equals(that.guest));
             }
             return false;
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= coffee.hashCode();
