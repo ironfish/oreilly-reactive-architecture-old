@@ -10,7 +10,7 @@ import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.duration.FiniteDuration;
 
-public class Guest extends AbstractLoggingActor{
+public class Guest extends AbstractLoggingActor {
 
     private final ActorRef waiter;
 
@@ -20,7 +20,7 @@ public class Guest extends AbstractLoggingActor{
 
     private int coffeeCount = 0;
 
-    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration){
+    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration) {
         this.waiter = waiter;
         this.favoriteCoffee = favoriteCoffee;
         this.finishCoffeeDuration = finishCoffeeDuration;
@@ -39,30 +39,30 @@ public class Guest extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration){
+    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration) {
         return Props.create(Guest.class, () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration));
     }
 
     @Override
-    public void postStop(){
+    public void postStop() {
         log().info("Goodbye!");
     }
 
-    private void orderFavoriteCoffee(){
+    private void orderFavoriteCoffee() {
         waiter.tell(new Waiter.ServeCoffee(favoriteCoffee), self());
     }
 
-    private void scheduleCoffeeFinished(){
+    private void scheduleCoffeeFinished() {
         context().system().scheduler().scheduleOnce(finishCoffeeDuration, self(),
-            CoffeeFinished.Instance, context().dispatcher(), self());
+                CoffeeFinished.Instance, context().dispatcher(), self());
     }
 
-    public static final class CoffeeFinished{
+    public static final class CoffeeFinished {
 
         public static final CoffeeFinished Instance =
-            new CoffeeFinished();
+                new CoffeeFinished();
 
-        private CoffeeFinished(){
+        private CoffeeFinished() {
         }
     }
 }
