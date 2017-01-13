@@ -11,12 +11,12 @@ import akka.japi.pf.ReceiveBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class CoffeeHouse extends AbstractLoggingActor{
+public class CoffeeHouse extends AbstractLoggingActor {
 
     private final ActorRef waiter =
-        context().actorOf(Waiter.props(), "waiter");
+            context().actorOf(Waiter.props(), "waiter");
 
-    public CoffeeHouse(){
+    public CoffeeHouse() {
         log().debug("CoffeeHouse Open");
 
         receive(ReceiveBuilder.
@@ -27,30 +27,30 @@ public class CoffeeHouse extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(){
+    public static Props props() {
         return Props.create(CoffeeHouse.class, CoffeeHouse::new);
     }
 
-    protected void createGuest(Coffee favoriteCoffee){
+    protected void createGuest(Coffee favoriteCoffee) {
         context().actorOf(Guest.props(waiter, favoriteCoffee));
     }
 
-    public static final class CreateGuest{
+    public static final class CreateGuest {
 
         public final Coffee favoriteCoffee;
 
-        public CreateGuest(final Coffee favoriteCoffee){
+        public CreateGuest(final Coffee favoriteCoffee) {
             checkNotNull(favoriteCoffee, "Favorite coffee cannot be null");
             this.favoriteCoffee = favoriteCoffee;
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "CreateGuest{favoriteCoffee=" + favoriteCoffee + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof CreateGuest) {
                 CreateGuest that = (CreateGuest) o;
@@ -60,7 +60,7 @@ public class CoffeeHouse extends AbstractLoggingActor{
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= favoriteCoffee.hashCode();

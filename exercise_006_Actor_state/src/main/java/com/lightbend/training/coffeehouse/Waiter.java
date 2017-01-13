@@ -10,9 +10,9 @@ import akka.japi.pf.ReceiveBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class Waiter extends AbstractLoggingActor{
+public class Waiter extends AbstractLoggingActor {
 
-    public Waiter(){
+    public Waiter() {
 
         receive(ReceiveBuilder.
                 match(ServeCoffee.class, serveCoffee ->
@@ -22,26 +22,26 @@ public class Waiter extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(){
+    public static Props props() {
         return Props.create(Waiter.class, Waiter::new);
     }
 
-    public static final class ServeCoffee{
+    public static final class ServeCoffee {
 
         public final Coffee coffee;
 
-        public ServeCoffee(final Coffee coffee){
+        public ServeCoffee(final Coffee coffee) {
             checkNotNull(coffee, "Coffee cannot be null");
             this.coffee = coffee;
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "ServeCoffee{coffee=" + coffee + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof ServeCoffee) {
                 ServeCoffee that = (ServeCoffee) o;
@@ -51,7 +51,7 @@ public class Waiter extends AbstractLoggingActor{
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= coffee.hashCode();
@@ -59,22 +59,22 @@ public class Waiter extends AbstractLoggingActor{
         }
     }
 
-    public static final class CoffeeServed{
+    public static final class CoffeeServed {
 
         public final Coffee coffee;
 
-        public CoffeeServed(final Coffee coffee){
+        public CoffeeServed(final Coffee coffee) {
             checkNotNull(coffee, "Coffee cannot be null");
             this.coffee = coffee;
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "CoffeeServed{coffee=" + coffee + "}";
         }
 
         @Override
-        public boolean equals(Object o){
+        public boolean equals(Object o) {
             if (o == this) return true;
             if (o instanceof CoffeeServed) {
                 CoffeeServed that = (CoffeeServed) o;
@@ -84,7 +84,7 @@ public class Waiter extends AbstractLoggingActor{
         }
 
         @Override
-        public int hashCode(){
+        public int hashCode() {
             int h = 1;
             h *= 1000003;
             h ^= coffee.hashCode();

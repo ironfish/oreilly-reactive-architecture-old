@@ -9,7 +9,7 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 
-public class Guest extends AbstractLoggingActor{
+public class Guest extends AbstractLoggingActor {
 
     private final ActorRef waiter;
 
@@ -17,7 +17,7 @@ public class Guest extends AbstractLoggingActor{
 
     private int coffeeCount = 0;
 
-    public Guest(ActorRef waiter, Coffee favoriteCoffee){
+    public Guest(ActorRef waiter, Coffee favoriteCoffee) {
         this.waiter = waiter;
         this.favoriteCoffee = favoriteCoffee;
 
@@ -33,16 +33,16 @@ public class Guest extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee){
+    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee) {
         return Props.create(Guest.class, () -> new Guest(waiter, favoriteCoffee));
     }
 
-    public static final class CoffeeFinished{
+    public static final class CoffeeFinished {
 
         public static final CoffeeFinished Instance =
-            new CoffeeFinished();
+                new CoffeeFinished();
 
-        private CoffeeFinished(){
+        private CoffeeFinished() {
         }
     }
 }
