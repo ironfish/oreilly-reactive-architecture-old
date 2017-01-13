@@ -10,7 +10,7 @@ import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.duration.FiniteDuration;
 
-public class Guest extends AbstractLoggingActor{
+public class Guest extends AbstractLoggingActor {
 
     private final ActorRef waiter;
 
@@ -22,7 +22,7 @@ public class Guest extends AbstractLoggingActor{
 
     private int coffeeCount = 0;
 
-    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration, int caffeineLimit){
+    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration, int caffeineLimit) {
         this.waiter = waiter;
         this.favoriteCoffee = favoriteCoffee;
         this.finishCoffeeDuration = finishCoffeeDuration;
@@ -46,38 +46,38 @@ public class Guest extends AbstractLoggingActor{
     }
 
     public static Props props(final ActorRef waiter, final Coffee favoriteCoffee,
-        final FiniteDuration finishCoffeeDuration, final int caffeineLimit){
+                              final FiniteDuration finishCoffeeDuration, final int caffeineLimit) {
         return Props.create(Guest.class,
-            () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration, caffeineLimit));
+                () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration, caffeineLimit));
     }
 
     @Override
-    public void postStop(){
+    public void postStop() {
         log().info("Goodbye!");
     }
 
-    private void orderFavoriteCoffee(){
+    private void orderFavoriteCoffee() {
         waiter.tell(new Waiter.ServeCoffee(favoriteCoffee), self());
     }
 
-    private void scheduleCoffeeFinished(){
+    private void scheduleCoffeeFinished() {
         context().system().scheduler().scheduleOnce(finishCoffeeDuration, self(),
-            CoffeeFinished.Instance, context().dispatcher(), self());
+                CoffeeFinished.Instance, context().dispatcher(), self());
     }
 
-    public static final class CaffeineException extends IllegalStateException{
+    public static final class CaffeineException extends IllegalStateException {
         static final long serialVersionUID = 1;
 
-        public CaffeineException(){
+        public CaffeineException() {
             super("Too much caffeine!");
         }
     }
 
-    public static final class CoffeeFinished{
+    public static final class CoffeeFinished {
 
         public static final CoffeeFinished Instance = new CoffeeFinished();
 
-        private CoffeeFinished(){
+        private CoffeeFinished() {
         }
     }
 }
