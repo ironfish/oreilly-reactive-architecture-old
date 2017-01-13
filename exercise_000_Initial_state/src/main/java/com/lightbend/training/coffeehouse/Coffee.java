@@ -38,9 +38,8 @@ public interface Coffee extends Serializable {
 
     final class Akkaccino implements Coffee {
 
-        private static final long serialVersionUID = 1L;
-
         public static final String CODE = "a";
+        private static final long serialVersionUID = 1L;
 
         @Override
         public String toString() {
@@ -60,9 +59,8 @@ public interface Coffee extends Serializable {
 
     final class CaffeJava implements Coffee {
 
-        private static final long serialVersionUID = 1L;
-
         public static final String CODE = "c";
+        private static final long serialVersionUID = 1L;
 
         @Override
         public String toString() {
@@ -82,9 +80,8 @@ public interface Coffee extends Serializable {
 
     final class MochaPlay implements Coffee {
 
-        private static final long serialVersionUID = 1L;
-
         public static final String CODE = "m";
+        private static final long serialVersionUID = 1L;
 
         @Override
         public String toString() {
