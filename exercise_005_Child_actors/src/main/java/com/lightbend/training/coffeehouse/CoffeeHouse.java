@@ -8,9 +8,9 @@ import akka.actor.AbstractLoggingActor;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 
-public class CoffeeHouse extends AbstractLoggingActor{
+public class CoffeeHouse extends AbstractLoggingActor {
 
-    public CoffeeHouse(){
+    public CoffeeHouse() {
         log().debug("CoffeeHouse Open");
 
         receive(ReceiveBuilder.
@@ -21,20 +21,20 @@ public class CoffeeHouse extends AbstractLoggingActor{
         );
     }
 
-    public static Props props(){
+    public static Props props() {
         return Props.create(CoffeeHouse.class, CoffeeHouse::new);
     }
 
-    protected void createGuest(){
+    protected void createGuest() {
         context().actorOf(Guest.props());
     }
 
-    public static final class CreateGuest{
+    public static final class CreateGuest {
 
         public static final CreateGuest Instance =
-            new CreateGuest();
+                new CreateGuest();
 
-        private CreateGuest(){
+        private CreateGuest() {
         }
     }
 }
