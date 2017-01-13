@@ -6,13 +6,13 @@ package com.lightbend.training.coffeehouse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public interface Terminal{
+public interface Terminal {
 
     Pattern createGuestPattern = Pattern.compile("(\\d+)?\\s*(?:guest|g)\\s*(A|a|M|m|C|c)?\\s*(\\d+)?");
     Pattern getStatusPattern = Pattern.compile("status|s");
     Pattern quitPattern = Pattern.compile("quit|q");
 
-    static TerminalCommand create(final String s){
+    static TerminalCommand create(final String s) {
 
         final Matcher guestMatcher = createGuestPattern.matcher(s);
         if (guestMatcher.matches()) {
@@ -25,7 +25,7 @@ public interface Terminal{
 
             final String maxCoffeeCountGroup = guestMatcher.group(3);
             final int maxCoffeeCount =
-                maxCoffeeCountGroup != null ? Integer.parseInt(maxCoffeeCountGroup) : Integer.MAX_VALUE;
+                    maxCoffeeCountGroup != null ? Integer.parseInt(maxCoffeeCountGroup) : Integer.MAX_VALUE;
 
             return new TerminalCommand.Guest(count, coffee, maxCoffeeCount);
         }
