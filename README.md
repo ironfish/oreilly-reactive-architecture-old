@@ -252,3 +252,4 @@ Our mission is to keep the Akka Coffee House healthy, so make sure you have the 
 16. Exercise 16 > Use Router
 17. Exercise 17 > Config Dispatcher
 18. Exercise 18 > Modify Behavior
+19. Exercise 19 > Remoting

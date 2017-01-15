@@ -13,7 +13,7 @@ In this exercise, we will further explore resilience by implementing custom supe
     - Make sure the `Guest` actor throws `CaffeineException`.
     - Verify that the caffeinated `Guest` does not restart.
     - Attention: 
-        - Enter g 2 or guest 2 to create a `Guest` with a `caffeineLimit` of 2.
+        - Enter g (a/c/m) 2 or guest (a/c/m) 2 to create a `Guest` with a `caffeineLimit` of 2.
         - If you omit the limit, `Integer.MAX_VALUE` will be used by default.
 - Use the `test` command to verify the solution works as expected.
 - Use the `next` command to move to the next exercise.

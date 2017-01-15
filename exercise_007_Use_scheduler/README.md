@@ -1,6 +1,6 @@
 use-scheduler
 
-# Exercise 6 > Use Scheduler
+# Exercise 7 > Use Scheduler
 
 In this exercise, we will implement the Akka `Scheduler` to simulate the `Guest` ordering more `Coffee`.
 
