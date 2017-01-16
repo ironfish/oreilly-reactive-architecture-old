@@ -17,6 +17,7 @@ lazy val compileOptions = Seq(
 lazy val commonDependencies = Seq(
   "com.google.guava"         %  "guava"                      % quavaVer,
   "com.typesafe.akka"        %% "akka-actor"                 % akkaVer,
+  "com.typesafe.akka"        %% "akka-remote"                % akkaVer,
   "com.typesafe.akka"        %% "akka-slf4j"                 % akkaVer,
   "ch.qos.logback"           %  "logback-classic"            % logbackVer,
   "org.scala-lang.modules"   %% "scala-parser-combinators"   % scalaParsersVer,
@@ -65,7 +66,8 @@ lazy val base = (project in file("."))
     exercise_015_Detect_bottleneck,
     exercise_016_Use_router,
     exercise_017_Config_dispatcher,
-    exercise_018_Modify_behavior)
+    exercise_018_Modify_behavior,
+    exercise_019_Remoting)
   .settings(commonSettings: _*)
 
 lazy val exercise_000_Initial_state = project
@@ -125,4 +127,6 @@ lazy val exercise_017_Config_dispatcher = project
 lazy val exercise_018_Modify_behavior = project
   .settings(commonSettings: _*)
 
+lazy val exercise_019_Remoting = project
+  .settings(commonSettings: _*)
 
