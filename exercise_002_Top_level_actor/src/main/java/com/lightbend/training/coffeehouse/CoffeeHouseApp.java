@@ -73,7 +73,8 @@ public class CoffeeHouseApp implements Terminal {
     }
 
     protected ActorRef createCoffeeHouse() {
-        return system.actorOf(CoffeeHouse.props(), "coffee-house");
+        return null;
+//        return system.actorOf(CoffeeHouse.props(), "coffee-house");
     }
 
     private void commandLoop() throws IOException {

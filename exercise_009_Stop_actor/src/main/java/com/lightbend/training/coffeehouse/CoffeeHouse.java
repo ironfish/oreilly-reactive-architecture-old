@@ -50,13 +50,13 @@ public class CoffeeHouse extends AbstractLoggingActor {
                     final ActorRef guest = createGuest(createGuest.favoriteCoffee);
                     addGuestToBookkeeper(guest);
                 }).
-                match(ApproveCoffee.class, this::coffeeApproved, approveCoffee ->
-                        barista.forward(new Barista.PrepareCoffee(approveCoffee.coffee, approveCoffee.guest), context())
-                ).
-                match(ApproveCoffee.class, approveCoffee -> {
-                    log().info("Sorry, {}, but you have reached your limit.", approveCoffee.guest.path().name());
-                    context().stop(approveCoffee.guest);
-                }).
+//                match(ApproveCoffee.class, this::coffeeApproved, approveCoffee ->
+//                        barista.forward(new Barista.PrepareCoffee(approveCoffee.coffee, approveCoffee.guest), context())
+//                ).
+//                match(ApproveCoffee.class, approveCoffee -> {
+//                    log().info("Sorry, {}, but you have reached your limit.", approveCoffee.guest.path().name());
+//                    context().stop(approveCoffee.guest);
+//                }).
                 matchAny(this::unhandled).build()
         );
     }
@@ -65,14 +65,14 @@ public class CoffeeHouse extends AbstractLoggingActor {
         return Props.create(CoffeeHouse.class, () -> new CoffeeHouse(caffeineLimit));
     }
 
-    private boolean coffeeApproved(ApproveCoffee approveCoffee) {
-        final int guestCaffeineCount = guestCaffeineBookkeeper.get(approveCoffee.guest);
-        if (guestCaffeineCount < caffeineLimit) {
-            guestCaffeineBookkeeper.put(approveCoffee.guest, guestCaffeineCount + 1);
-            return true;
-        }
-        return false;
-    }
+//    private boolean coffeeApproved(ApproveCoffee approveCoffee) {
+//        final int guestCaffeineCount = guestCaffeineBookkeeper.get(approveCoffee.guest);
+//        if (guestCaffeineCount < caffeineLimit) {
+//            guestCaffeineBookkeeper.put(approveCoffee.guest, guestCaffeineCount + 1);
+//            return true;
+//        }
+//        return false;
+//    }
 
     private void addGuestToBookkeeper(ActorRef guest) {
         guestCaffeineBookkeeper.put(guest, 0);
@@ -124,45 +124,45 @@ public class CoffeeHouse extends AbstractLoggingActor {
         }
     }
 
-    public static final class ApproveCoffee {
-
-        public final Coffee coffee;
-
-        public final ActorRef guest;
-
-        public ApproveCoffee(final Coffee coffee, final ActorRef guest) {
-            checkNotNull(coffee, "Coffee cannot be null");
-            checkNotNull(guest, "Guest cannot be null");
-            this.coffee = coffee;
-            this.guest = guest;
-        }
-
-        @Override
-        public String toString() {
-            return "ApproveCoffee{"
-                    + "coffee=" + coffee + ", "
-                    + "guest=" + guest + "}";
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == this) return true;
-            if (o instanceof ApproveCoffee) {
-                ApproveCoffee that = (ApproveCoffee) o;
-                return (this.coffee.equals(that.coffee))
-                        && (this.guest.equals(that.guest));
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            int h = 1;
-            h *= 1000003;
-            h ^= coffee.hashCode();
-            h *= 1000003;
-            h ^= guest.hashCode();
-            return h;
-        }
-    }
+//    public static final class ApproveCoffee {
+//
+//        public final Coffee coffee;
+//
+//        public final ActorRef guest;
+//
+//        public ApproveCoffee(final Coffee coffee, final ActorRef guest) {
+//            checkNotNull(coffee, "Coffee cannot be null");
+//            checkNotNull(guest, "Guest cannot be null");
+//            this.coffee = coffee;
+//            this.guest = guest;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "ApproveCoffee{"
+//                    + "coffee=" + coffee + ", "
+//                    + "guest=" + guest + "}";
+//        }
+//
+//        @Override
+//        public boolean equals(Object o) {
+//            if (o == this) return true;
+//            if (o instanceof ApproveCoffee) {
+//                ApproveCoffee that = (ApproveCoffee) o;
+//                return (this.coffee.equals(that.coffee))
+//                        && (this.guest.equals(that.guest));
+//            }
+//            return false;
+//        }
+//
+//        @Override
+//        public int hashCode() {
+//            int h = 1;
+//            h *= 1000003;
+//            h ^= coffee.hashCode();
+//            h *= 1000003;
+//            h ^= guest.hashCode();
+//            return h;
+//        }
+//    }
 }

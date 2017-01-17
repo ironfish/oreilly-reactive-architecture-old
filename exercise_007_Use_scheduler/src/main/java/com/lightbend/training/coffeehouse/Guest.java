@@ -12,45 +12,45 @@ import scala.concurrent.duration.FiniteDuration;
 
 public class Guest extends AbstractLoggingActor {
 
-    private final ActorRef waiter;
+//    private final ActorRef waiter;
 
-    private final Coffee favoriteCoffee;
+//    private final Coffee favoriteCoffee;
 
-    private final FiniteDuration finishCoffeeDuration;
+//    private final FiniteDuration finishCoffeeDuration;
 
     private int coffeeCount = 0;
 
     public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration) {
-        this.waiter = waiter;
-        this.favoriteCoffee = favoriteCoffee;
-        this.finishCoffeeDuration = finishCoffeeDuration;
-        orderFavoriteCoffee();
+//        this.waiter = waiter;
+//        this.favoriteCoffee = favoriteCoffee;
+//        this.finishCoffeeDuration = finishCoffeeDuration;
+//        orderFavoriteCoffee();
 
         receive(ReceiveBuilder.
                 match(Waiter.CoffeeServed.class, coffeeServed -> {
                     coffeeCount++;
                     log().info("Enjoying my {} yummy {}!", coffeeCount, coffeeServed.coffee);
-                    scheduleCoffeeFinished();
+//                    scheduleCoffeeFinished();
                 }).
-                match(CoffeeFinished.class, coffeeFinished ->
-                        orderFavoriteCoffee()
-                ).
+//                match(CoffeeFinished.class, coffeeFinished ->
+//                        orderFavoriteCoffee()
+//                ).
                 matchAny(this::unhandled).build()
         );
     }
 
-    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration) {
-        return Props.create(Guest.class, () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration));
-    }
+//    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration) {
+//        return Props.create(Guest.class, () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration));
+//    }
 
-    private void orderFavoriteCoffee() {
-        waiter.tell(new Waiter.ServeCoffee(favoriteCoffee), self());
-    }
-
-    private void scheduleCoffeeFinished() {
-        context().system().scheduler().scheduleOnce(finishCoffeeDuration, self(),
-                CoffeeFinished.Instance, context().dispatcher(), self());
-    }
+//    private void orderFavoriteCoffee() {
+//        waiter.tell(new Waiter.ServeCoffee(favoriteCoffee), self());
+//    }
+//
+//    private void scheduleCoffeeFinished() {
+//        context().system().scheduler().scheduleOnce(finishCoffeeDuration, self(),
+//                CoffeeFinished.Instance, context().dispatcher(), self());
+//    }
 
     public static final class CoffeeFinished {
 
