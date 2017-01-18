@@ -57,7 +57,7 @@ public class CoffeeHouse extends AbstractLoggingActor {
         this.caffeineLimit = caffeineLimit;
 
         receive(ReceiveBuilder.
-                match(Hostess.GuestCreated.class, guestCreated -> {
+                match(GuestCreated.class, guestCreated -> {
                     // Connect the guest with the waiter
                     guestCreated.guestActorRef.tell(new WaiterServingGuest(waiter), self());
                     // Add guest to book keeping
@@ -179,6 +179,29 @@ public class CoffeeHouse extends AbstractLoggingActor {
             h *= 1000003;
             h ^= guest.hashCode();
             return h;
+        }
+    }
+
+    public static final class GuestCreated implements Serializable {
+        public final ActorRef guestActorRef;
+
+        public GuestCreated(ActorRef guestActorRef) {
+            this.guestActorRef = guestActorRef;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            GuestCreated that = (GuestCreated) o;
+
+            return guestActorRef != null ? guestActorRef.equals(that.guestActorRef) : that.guestActorRef == null;
+        }
+
+        @Override
+        public int hashCode() {
+            return guestActorRef != null ? guestActorRef.hashCode() : 0;
         }
     }
 }
