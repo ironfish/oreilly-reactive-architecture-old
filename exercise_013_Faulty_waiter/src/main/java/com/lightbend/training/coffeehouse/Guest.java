@@ -35,10 +35,10 @@ public class Guest extends AbstractLoggingActor {
                     log().info("Enjoying my {} yummy {}!", coffeeCount, coffeeServed.coffee);
                     scheduleCoffeeFinished();
                 }).
-                match(Waiter.CoffeeServed.class, coffeeServed -> {
-                    log().info("Expected a {}, but got a {}!", favoriteCoffee, coffeeServed.coffee);
-                    waiter.tell(new Waiter.Complaint(favoriteCoffee), self());
-                }).
+//                match(Waiter.CoffeeServed.class, coffeeServed -> {
+//                    log().info("Expected a {}, but got a {}!", favoriteCoffee, coffeeServed.coffee);
+//                    waiter.tell(new Waiter.Complaint(favoriteCoffee), self());
+//                }).
                 match(CoffeeFinished.class, coffeeFinished -> coffeeCount > this.caffeineLimit, coffeeFinished -> {
                     throw new CaffeineException();
                 }).

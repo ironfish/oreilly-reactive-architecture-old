@@ -18,28 +18,32 @@ public class Barista extends AbstractLoggingActor {
 
     private final FiniteDuration prepareCoffeeDuration;
 
-    private final int accuracy;
+//    private final int accuracy;
 
-    public Barista(FiniteDuration prepareCoffeeDuration, int accuracy) {
+//    public Barista(FiniteDuration prepareCoffeeDuration, int accuracy) {
+    public Barista(FiniteDuration prepareCoffeeDuration) {
         this.prepareCoffeeDuration = prepareCoffeeDuration;
-        this.accuracy = accuracy;
+//        this.accuracy = accuracy;
 
         receive(ReceiveBuilder.
                 match(PrepareCoffee.class, prepareCoffee -> {
                     Thread.sleep(this.prepareCoffeeDuration.toMillis()); // Attention: Never block a thread in "real" code!
-                    sender().tell(new CoffeePrepared(pickCoffee(prepareCoffee.coffee), prepareCoffee.guest), self());
+//                    sender().tell(new CoffeePrepared(pickCoffee(prepareCoffee.coffee), prepareCoffee.guest), self());
+                    sender().tell(new CoffeePrepared(prepareCoffee.coffee, prepareCoffee.guest), self());
                 }).
                 matchAny(this::unhandled).build()
         );
     }
 
-    public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy) {
-        return Props.create(Barista.class, () -> new Barista(prepareCoffeeDuration, accuracy));
+    public static Props props(FiniteDuration prepareCoffeeDuration) {
+//    public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy) {
+//        return Props.create(Barista.class, () -> new Barista(prepareCoffeeDuration, accuracy));
+        return Props.create(Barista.class, () -> new Barista(prepareCoffeeDuration));
     }
 
-    private Coffee pickCoffee(Coffee coffee) {
-        return new Random().nextInt(100) < accuracy ? coffee : Coffee.orderOther(coffee);
-    }
+//    private Coffee pickCoffee(Coffee coffee) {
+//        return new Random().nextInt(100) < accuracy ? coffee : Coffee.orderOther(coffee);
+//    }
 
     public static final class PrepareCoffee {
 

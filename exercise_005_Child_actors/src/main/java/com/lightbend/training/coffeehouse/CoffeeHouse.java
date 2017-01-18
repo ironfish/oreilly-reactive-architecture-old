@@ -14,9 +14,9 @@ public class CoffeeHouse extends AbstractLoggingActor {
         log().debug("CoffeeHouse Open");
 
         receive(ReceiveBuilder.
-//                match(CreateGuest.class, createGuest ->
-//                        createGuest()
-//                ).
+                match(CreateGuest.class, createGuest ->
+                        createGuest()
+                ).
                 matchAny(this::unhandled).build()
         );
     }
@@ -25,16 +25,16 @@ public class CoffeeHouse extends AbstractLoggingActor {
         return Props.create(CoffeeHouse.class, CoffeeHouse::new);
     }
 
-//    protected void createGuest() {
-//        context().actorOf(Guest.props());
-//    }
-//
-//    public static final class CreateGuest {
-//
-//        public static final CreateGuest Instance =
-//                new CreateGuest();
-//
-//        private CreateGuest() {
-//        }
-//    }
+    protected void createGuest() {
+        context().actorOf(Guest.props());
+    }
+
+    public static final class CreateGuest {
+
+        public static final CreateGuest Instance =
+                new CreateGuest();
+
+        private CreateGuest() {
+        }
+    }
 }

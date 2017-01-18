@@ -38,7 +38,7 @@ public class CoffeeHouseApp implements Terminal {
         this.system = system;
         log = Logging.getLogger(system, getClass().getName());
         coffeeHouse = createCoffeeHouse();
-//        system.actorOf(printerProps(coffeeHouse));
+        system.actorOf(printerProps(coffeeHouse));
     }
 
     public static void main(final String[] args) throws Exception {
@@ -66,17 +66,17 @@ public class CoffeeHouseApp implements Terminal {
         });
     }
 
-//    private static Props printerProps(ActorRef coffeeHouse) {
-//        return Props.create(AbstractLoggingActor.class, () -> new AbstractLoggingActor() {
-//            {
-//                coffeeHouse.tell("Brew Coffee", self());
-//
-//                receive(ReceiveBuilder.
-//                        matchAny(o -> log().info(o.toString())).build()
-//                );
-//            }
-//        });
-//    }
+    private static Props printerProps(ActorRef coffeeHouse) {
+        return Props.create(AbstractLoggingActor.class, () -> new AbstractLoggingActor() {
+            {
+                coffeeHouse.tell("Brew Coffee", self());
+
+                receive(ReceiveBuilder.
+                        matchAny(o -> log().info(o.toString())).build()
+                );
+            }
+        });
+    }
 
     private void run() throws IOException, TimeoutException, InterruptedException {
         log.warning(

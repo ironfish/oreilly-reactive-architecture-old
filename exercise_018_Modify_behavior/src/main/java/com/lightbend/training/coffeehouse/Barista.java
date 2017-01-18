@@ -26,31 +26,40 @@ public class Barista extends AbstractActorWithStash {
         this.prepareCoffeeDuration = prepareCoffeeDuration;
         this.accuracy = accuracy;
 
-        receive(ready());
+        receive(ReceiveBuilder.
+                match(PrepareCoffee.class, prepareCoffee -> {
+                    Thread.sleep(this.prepareCoffeeDuration.toMillis()); // Attention: Never block a thread in "real" code!
+                    sender().tell(new CoffeePrepared(pickCoffee(prepareCoffee.coffee), prepareCoffee.guest), self());
+                }).
+                matchAny(this::unhandled).build()
+        );
+
+
+//        receive(ready());
     }
 
     public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy) {
         return Props.create(Barista.class, () -> new Barista(prepareCoffeeDuration, accuracy));
     }
 
-    private PartialFunction<Object, BoxedUnit> ready() {
-        return ReceiveBuilder.
-                match(PrepareCoffee.class, prepareCoffee -> {
-                    scheduleCoffeePrepared(prepareCoffee.coffee, prepareCoffee.guest);
-                    context().become(busy(sender()));
-                }).
-                matchAny(this::unhandled).build();
-    }
+//    private PartialFunction<Object, BoxedUnit> ready() {
+//        return ReceiveBuilder.
+//                match(PrepareCoffee.class, prepareCoffee -> {
+//                    scheduleCoffeePrepared(prepareCoffee.coffee, prepareCoffee.guest);
+//                    context().become(busy(sender()));
+//                }).
+//                matchAny(this::unhandled).build();
+//    }
 
-    private PartialFunction<Object, BoxedUnit> busy(ActorRef waiter) {
-        return ReceiveBuilder.
-                match(CoffeePrepared.class, coffeePrepared -> {
-                    waiter.tell(coffeePrepared, self());
-                    unstashAll();
-                    context().become(ready());
-                }).
-                matchAny(msg -> stash()).build();
-    }
+//    private PartialFunction<Object, BoxedUnit> busy(ActorRef waiter) {
+//        return ReceiveBuilder.
+//                match(CoffeePrepared.class, coffeePrepared -> {
+//                    waiter.tell(coffeePrepared, self());
+//                    unstashAll();
+//                    context().become(ready());
+//                }).
+//                matchAny(msg -> stash()).build();
+//    }
 
     private Coffee pickCoffee(Coffee coffee) {
         return new Random().nextInt(100) < accuracy ? coffee : Coffee.orderOther(coffee);

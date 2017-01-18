@@ -18,15 +18,16 @@ public class Guest extends AbstractLoggingActor {
 
     private final FiniteDuration finishCoffeeDuration;
 
-    private final int caffeineLimit;
+//    private final int caffeineLimit;
 
     private int coffeeCount = 0;
 
-    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration, int caffeineLimit) {
+//    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration, int caffeineLimit) {
+    public Guest(ActorRef waiter, Coffee favoriteCoffee, FiniteDuration finishCoffeeDuration) {
         this.waiter = waiter;
         this.favoriteCoffee = favoriteCoffee;
         this.finishCoffeeDuration = finishCoffeeDuration;
-        this.caffeineLimit = caffeineLimit;
+//        this.caffeineLimit = caffeineLimit;
         orderFavoriteCoffee();
 
         receive(ReceiveBuilder.
@@ -35,9 +36,9 @@ public class Guest extends AbstractLoggingActor {
                     log().info("Enjoying my {} yummy {}!", coffeeCount, coffeeServed.coffee);
                     scheduleCoffeeFinished();
                 }).
-                match(CoffeeFinished.class, coffeeFinished -> coffeeCount > this.caffeineLimit, coffeeFinished -> {
-                    throw new CaffeineException();
-                }).
+//                match(CoffeeFinished.class, coffeeFinished -> coffeeCount > this.caffeineLimit, coffeeFinished -> {
+//                    throw new CaffeineException();
+//                }).
                 match(CoffeeFinished.class, coffeeFinished ->
                         orderFavoriteCoffee()
                 ).
@@ -46,9 +47,13 @@ public class Guest extends AbstractLoggingActor {
     }
 
     public static Props props(final ActorRef waiter, final Coffee favoriteCoffee,
-                              final FiniteDuration finishCoffeeDuration, final int caffeineLimit) {
+                              final FiniteDuration finishCoffeeDuration) {
+//    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee,
+//                              final FiniteDuration finishCoffeeDuration, final int caffeineLimit) {
+//        return Props.create(Guest.class,
+//                () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration, caffeineLimit));
         return Props.create(Guest.class,
-                () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration, caffeineLimit));
+                () -> new Guest(waiter, favoriteCoffee, finishCoffeeDuration));
     }
 
     @Override

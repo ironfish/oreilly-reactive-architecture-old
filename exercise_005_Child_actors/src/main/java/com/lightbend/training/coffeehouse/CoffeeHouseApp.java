@@ -65,18 +65,6 @@ public class CoffeeHouseApp implements Terminal {
         });
     }
 
-    private static Props printerProps(ActorRef coffeeHouse) {
-        return Props.create(AbstractLoggingActor.class, () -> new AbstractLoggingActor() {
-            {
-                coffeeHouse.tell("Brew Coffee", self());
-
-                receive(ReceiveBuilder.
-                        matchAny(o -> log().info(o.toString())).build()
-                );
-            }
-        });
-    }
-
     private void run() throws IOException, TimeoutException, InterruptedException {
         log.warning(
                 String.format("{} running%nEnter commands into the terminal, e.g. 'q' or 'quit'"),
@@ -110,9 +98,9 @@ public class CoffeeHouseApp implements Terminal {
     }
 
     protected void createGuest(int count, Coffee coffee, int maxCoffeeCount) {
-//        for (int i = 0; i < count; i++) {
-//            coffeeHouse.tell(CoffeeHouse.CreateGuest.Instance, ActorRef.noSender());
-//        }
+        for (int i = 0; i < count; i++) {
+            coffeeHouse.tell(CoffeeHouse.CreateGuest.Instance, ActorRef.noSender());
+        }
     }
 
     protected void getStatus() {

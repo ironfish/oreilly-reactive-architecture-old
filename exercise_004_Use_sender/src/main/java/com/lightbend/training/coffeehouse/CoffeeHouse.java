@@ -14,8 +14,7 @@ public class CoffeeHouse extends AbstractLoggingActor {
         log().debug("CoffeeHouse Open");
 
         receive(ReceiveBuilder.
-                matchAny(o -> log().info("Coffee Brewing")).build() // delete me
-//                matchAny(o -> sender().tell("Coffee Brewing", self())).build()
+                matchAny(o -> sender().tell("Coffee is really really Brewing and it is hot", self())).build()
         );
     }
 

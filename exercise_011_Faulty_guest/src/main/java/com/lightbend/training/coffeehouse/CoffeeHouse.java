@@ -46,7 +46,8 @@ public class CoffeeHouse extends AbstractLoggingActor {
 
         receive(ReceiveBuilder.
                 match(CreateGuest.class, createGuest -> {
-                    final ActorRef guest = createGuest(createGuest.favoriteCoffee, createGuest.caffeineLimit);
+                    final ActorRef guest = createGuest(createGuest.favoriteCoffee);
+//                    final ActorRef guest = createGuest(createGuest.favoriteCoffee, createGuest.caffeineLimit);
                     addGuestToBookkeeper(guest);
                     context().watch(guest);
                 }).
@@ -96,7 +97,8 @@ public class CoffeeHouse extends AbstractLoggingActor {
         return context().actorOf(Waiter.props(self()), "waiter");
     }
 
-    protected ActorRef createGuest(Coffee favoriteCoffee, int caffeineLimit) {
+    protected ActorRef createGuest(Coffee favoriteCoffee) {
+//    protected ActorRef createGuest(Coffee favoriteCoffee, int caffeineLimit) {
         return context().actorOf(Guest.props(waiter, favoriteCoffee, guestFinishCoffeeDuration, caffeineLimit));
     }
 
@@ -106,10 +108,12 @@ public class CoffeeHouse extends AbstractLoggingActor {
 
         public final int caffeineLimit;
 
-        public CreateGuest(final Coffee favoriteCoffee, final int caffeineLimit) {
+        public CreateGuest(final Coffee favoriteCoffee) {
+//        public CreateGuest(final Coffee favoriteCoffee, final int caffeineLimit) {
             checkNotNull(favoriteCoffee, "Favorite coffee cannot be null");
             this.favoriteCoffee = favoriteCoffee;
-            this.caffeineLimit = caffeineLimit;
+//            this.caffeineLimit = caffeineLimit;
+            this.caffeineLimit = 0;
         }
 
         @Override

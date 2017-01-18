@@ -110,8 +110,9 @@ public class CoffeeHouse extends AbstractLoggingActor {
     }
 
     protected ActorRef createBarista() {
-        return context().actorOf(FromConfig.getInstance().props(
-                Barista.props(baristaPrepareCoffeeDuration, baristaAccuracy)), "barista");
+        return context().actorOf(Barista.props(baristaPrepareCoffeeDuration, baristaAccuracy), "barista");
+//        return context().actorOf(FromConfig.getInstance().props(
+//                Barista.props(baristaPrepareCoffeeDuration, baristaAccuracy)), "barista");
     }
 
     protected ActorRef createWaiter() {

@@ -49,7 +49,7 @@ public class CoffeeHouse extends AbstractLoggingActor {
                 match(CreateGuest.class, createGuest -> {
                     final ActorRef guest = createGuest(createGuest.favoriteCoffee);
                     addGuestToBookkeeper(guest);
-                    context().watch(guest);
+//                    context().watch(guest);
                 }).
                 match(ApproveCoffee.class, this::coffeeApproved, approveCoffee ->
                         barista.forward(new Barista.PrepareCoffee(approveCoffee.coffee, approveCoffee.guest), context())
@@ -58,10 +58,10 @@ public class CoffeeHouse extends AbstractLoggingActor {
                     log().info("Sorry, {}, but you have reached your limit.", approveCoffee.guest.path().name());
                     context().stop(approveCoffee.guest);
                 }).
-                match(Terminated.class, terminated -> {
-                    log().info("Thanks, {}, for being our guest!", terminated.getActor());
-                    removeGuestFromBookkeeper(terminated.getActor());
-                }).
+//                match(Terminated.class, terminated -> {
+//                    log().info("Thanks, {}, for being our guest!", terminated.getActor());
+//                    removeGuestFromBookkeeper(terminated.getActor());
+//                }).
                 matchAny(this::unhandled).build()
         );
     }
@@ -84,10 +84,10 @@ public class CoffeeHouse extends AbstractLoggingActor {
         log().debug("Guest {} added to bookkeeper", guest);
     }
 
-    private void removeGuestFromBookkeeper(ActorRef guest) {
-        guestCaffeineBookkeeper.remove(guest);
-        log().debug("Removed guest {} from bookkeeper", guest);
-    }
+//    private void removeGuestFromBookkeeper(ActorRef guest) {
+//        guestCaffeineBookkeeper.remove(guest);
+//        log().debug("Removed guest {} from bookkeeper", guest);
+//    }
 
     protected ActorRef createBarista() {
         return context().actorOf(Barista.props(baristaPrepareCoffeeDuration), "barista");

@@ -22,10 +22,11 @@ public class Waiter extends AbstractLoggingActor {
     private int complaintCount;
 
 
-    public Waiter(ActorRef coffeeHouse, ActorRef barista, int maxComplaintCount) {
+//    public Waiter(ActorRef coffeeHouse, ActorRef barista, int maxComplaintCount) {
+    public Waiter(ActorRef coffeeHouse, ActorRef barista) {
         this.coffeeHouse = coffeeHouse;
         this.barista = barista;
-        this.maxComplaintCount = maxComplaintCount;
+//        this.maxComplaintCount = maxComplaintCount;
 
         receive(ReceiveBuilder.
                 match(ServeCoffee.class, serveCoffee ->
@@ -34,9 +35,9 @@ public class Waiter extends AbstractLoggingActor {
                 match(Barista.CoffeePrepared.class, coffeePrepared ->
                         coffeePrepared.guest.tell(new CoffeeServed(coffeePrepared.coffee), self())
                 ).
-                match(Complaint.class, complaint -> complaintCount == this.maxComplaintCount, complaint -> {
-                    throw new FrustratedException();
-                }).
+//                match(Complaint.class, complaint -> complaintCount == this.maxComplaintCount, complaint -> {
+//                    throw new FrustratedException();
+//                }).
                 match(Complaint.class, complaint -> {
                     complaintCount++;
                     this.barista.tell(new Barista.PrepareCoffee(complaint.coffee, sender()), self());
@@ -45,17 +46,19 @@ public class Waiter extends AbstractLoggingActor {
         );
     }
 
-    public static Props props(ActorRef coffeeHouse, ActorRef barista, int maxComplaintCount) {
-        return Props.create(Waiter.class, () -> new Waiter(coffeeHouse, barista, maxComplaintCount));
+//    public static Props props(ActorRef coffeeHouse, ActorRef barista, int maxComplaintCount) {
+    public static Props props(ActorRef coffeeHouse, ActorRef barista) {
+        return Props.create(Waiter.class, () -> new Waiter(coffeeHouse, barista));
+//        return Props.create(Waiter.class, () -> new Waiter(coffeeHouse, barista, maxComplaintCount));
     }
 
-    public static final class FrustratedException extends IllegalStateException {
-        static final long serialVersionUID = 1;
-
-        public FrustratedException() {
-            super("Too many complaints!");
-        }
-    }
+//    public static final class FrustratedException extends IllegalStateException {
+//        static final long serialVersionUID = 1;
+//
+//        public FrustratedException() {
+//            super("Too many complaints!");
+//        }
+//    }
 
     public static final class ServeCoffee {
 

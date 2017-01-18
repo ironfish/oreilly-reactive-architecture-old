@@ -15,23 +15,23 @@ public class Waiter extends AbstractLoggingActor {
 
     private ActorRef barista;
 
-//    public Waiter(ActorRef barista) {
-//        this.barista = barista;
-//
-//        receive(ReceiveBuilder.
-//                match(ServeCoffee.class, serveCoffee ->
-//                        this.barista.tell(new Barista.PrepareCoffee(serveCoffee.coffee, sender()), self())
-//                ).
-//                match(Barista.CoffeePrepared.class, coffeePrepared ->
-//                        coffeePrepared.guest.tell(new CoffeeServed(coffeePrepared.coffee), self())
-//                ).
-//                matchAny(this::unhandled).build()
-//        );
-//    }
+    public Waiter(ActorRef barista) {
+        this.barista = barista;
 
-//    public static Props props(ActorRef barista) {
-//        return Props.create(Waiter.class, () -> new Waiter(barista));
-//    }
+        receive(ReceiveBuilder.
+                match(ServeCoffee.class, serveCoffee ->
+                        this.barista.tell(new Barista.PrepareCoffee(serveCoffee.coffee, sender()), self())
+                ).
+                match(Barista.CoffeePrepared.class, coffeePrepared ->
+                        coffeePrepared.guest.tell(new CoffeeServed(coffeePrepared.coffee), self())
+                ).
+                matchAny(this::unhandled).build()
+        );
+    }
+
+    public static Props props(ActorRef barista) {
+        return Props.create(Waiter.class, () -> new Waiter(barista));
+    }
 
     public static final class ServeCoffee {
 
