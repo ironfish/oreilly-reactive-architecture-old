@@ -30,7 +30,7 @@ public class Hostess extends AbstractLoggingActor {
                 }).
                 match(CreateGuest.class, createGuest -> {
                     final ActorRef guest = createGuest(createGuest.favoriteCoffee, createGuest.caffeineLimit);
-                    coffeeHouse.tell(new GuestCreated(guest), self());
+                    coffeeHouse.tell(new CoffeeHouse.GuestCreated(guest), self());
                 }).
                 matchAny(this::unhandled).build());
     }
@@ -81,29 +81,6 @@ public class Hostess extends AbstractLoggingActor {
             h *= 1000003;
             h ^= caffeineLimit;
             return h;
-        }
-    }
-
-    public static final class GuestCreated implements Serializable {
-        public final ActorRef guestActorRef;
-
-        public GuestCreated(ActorRef guestActorRef) {
-            this.guestActorRef = guestActorRef;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            GuestCreated that = (GuestCreated) o;
-
-            return guestActorRef != null ? guestActorRef.equals(that.guestActorRef) : that.guestActorRef == null;
-        }
-
-        @Override
-        public int hashCode() {
-            return guestActorRef != null ? guestActorRef.hashCode() : 0;
         }
     }
 }

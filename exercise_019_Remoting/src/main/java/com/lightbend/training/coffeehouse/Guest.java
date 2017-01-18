@@ -26,7 +26,6 @@ public class Guest extends AbstractLoggingActor {
         this.favoriteCoffee = favoriteCoffee;
         this.finishCoffeeDuration = finishCoffeeDuration;
         this.caffeineLimit = caffeineLimit;
-        orderFavoriteCoffee();
 
         receive(ReceiveBuilder.
                 match(CoffeeHouse.WaiterServingGuest.class, waiterServingGuest -> {

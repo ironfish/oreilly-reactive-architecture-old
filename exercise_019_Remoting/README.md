@@ -10,7 +10,7 @@ _Note: all message classes must implement `Serializable` since we will be sendin
     - move class `CoffeeHouse.CreateGuest` into `Hostess`
     - `Hostess` should read info from config about `guestFinishCoffeeDuration`
     - the constructor should add a lookup of the coffee house actor (use `ActorSelection` and send an `Identity` message)
-    - the `receive` block should handle `ActorIdentity` and `CreateGuest` - make sure to notiofy `CoffeeHouse` about created guests (create a `GuestCreated` message)
+    - the `receive` block should handle `ActorIdentity` and `CreateGuest` - make sure to notiofy `CoffeeHouse` about created guests (use the `CoffeeHouse.GuestCreated` message - see below)
 
 - Create a `GuestApp` with the same functionality as `CoffeeHouseApp`
     - remove the functionality to create guests from `CoffeeHouseApp` terminal loop
@@ -18,7 +18,7 @@ _Note: all message classes must implement `Serializable` since we will be sendin
     - when the create guest command is issued there should be a message sent to `Hostess` with instructions (`Hostess.CreateGuess`)
 
 - Update `CoffeeHouse`:
-    - expect a `Hostess.GuestCreated` message with guest information
+    - create a `CoffeeHouse.GuestCreated` message and add it to the actor's behavior
     - adding a new message type `WaiterServingGuest` (used to connect the guest with the waiter)
 
 - Update `Guest`:
@@ -28,3 +28,10 @@ _Note: all message classes must implement `Serializable` since we will be sendin
 - Split configuration file into two separate files:
     - `guest.conf` used in `GuestApp` when creating the actor system
     - `coffeehouse.conf` used by `CoffeeHouseApp` when creating the actor system
+
+
+- Use the `run` command to boot the `CoffeeHouseApp` and open another terminal window and...
+- Use the `run` command to boot the `GuestApp` and verify everything works as expected.
+    - create a couple of guests and verify that the system works as expected
+
+- Notice that there is output from two JVMs!
