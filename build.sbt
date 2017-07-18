@@ -64,9 +64,7 @@ lazy val base = (project in file("."))
     exercise_013_Faulty_waiter,
     exercise_014_Self_healing,
     exercise_015_Detect_bottleneck,
-    exercise_016_Use_router,
-    exercise_017_Config_dispatcher,
-    exercise_018_Modify_behavior)
+    exercise_016_Use_router)
   .settings(commonSettings: _*)
 
 lazy val exercise_000_Initial_state = project
@@ -118,10 +116,4 @@ lazy val exercise_015_Detect_bottleneck = project
   .settings(commonSettings: _*)
 
 lazy val exercise_016_Use_router = project
-  .settings(commonSettings: _*)
-
-lazy val exercise_017_Config_dispatcher = project
-  .settings(commonSettings: _*)
-
-lazy val exercise_018_Modify_behavior = project
   .settings(commonSettings: _*)
