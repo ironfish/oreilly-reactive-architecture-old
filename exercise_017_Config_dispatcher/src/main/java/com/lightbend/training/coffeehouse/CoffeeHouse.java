@@ -59,8 +59,12 @@ public class CoffeeHouse extends AbstractLoggingActor {
     public CoffeeHouse(int caffeineLimit) {
         log().debug("CoffeeHouse Open");
         this.caffeineLimit = caffeineLimit;
+    }
 
-        receive(ReceiveBuilder.
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(CreateGuest.class, createGuest -> {
                     final ActorRef guest = createGuest(createGuest.favoriteCoffee, createGuest.caffeineLimit);
                     addGuestToBookkeeper(guest);
@@ -77,8 +81,7 @@ public class CoffeeHouse extends AbstractLoggingActor {
                     log().info("Thanks, {}, for being our guest!", terminated.getActor());
                     removeGuestFromBookkeeper(terminated.getActor());
                 }).
-                matchAny(this::unhandled).build()
-        );
+                matchAny(this::unhandled).build();
     }
 
     public static Props props(int caffeineLimit) {

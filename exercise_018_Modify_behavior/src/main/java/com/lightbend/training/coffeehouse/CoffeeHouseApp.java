@@ -3,10 +3,7 @@
  */
 package com.lightbend.training.coffeehouse;
 
-import akka.actor.AbstractLoggingActor;
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
+import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.pf.ReceiveBuilder;
@@ -66,14 +63,17 @@ public class CoffeeHouseApp implements Terminal {
     }
 
     private static Props printerProps(ActorRef coffeeHouse) {
-        return Props.create(AbstractLoggingActor.class, () -> new AbstractLoggingActor() {
-            {
-                coffeeHouse.tell("Brew Coffee", self());
+        return Props.create(AbstractLoggingActor.class, () -> {
+            return new AbstractLoggingActor() {
+                @Override
+                public Receive createReceive() {
+                    return receiveBuilder().matchAny(o -> log().info(o.toString())).build();
+                }
 
-                receive(ReceiveBuilder.
-                        matchAny(o -> log().info(o.toString())).build()
-                );
-            }
+                {
+                    coffeeHouse.tell("Brew Coffee", self());
+                }
+            };
         });
     }
 

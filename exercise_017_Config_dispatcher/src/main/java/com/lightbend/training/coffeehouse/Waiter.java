@@ -4,6 +4,7 @@
 
 package com.lightbend.training.coffeehouse;
 
+import akka.actor.AbstractActor;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -27,7 +28,13 @@ public class Waiter extends AbstractLoggingActor {
         this.barista = barista;
         this.maxComplaintCount = maxComplaintCount;
 
-        receive(ReceiveBuilder.
+        receive(
+        );
+    }
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(ServeCoffee.class, serveCoffee ->
                         this.coffeeHouse.tell(new CoffeeHouse.ApproveCoffee(serveCoffee.coffee, sender()), self())
                 ).
@@ -41,8 +48,7 @@ public class Waiter extends AbstractLoggingActor {
                     complaintCount++;
                     this.barista.tell(new Barista.PrepareCoffee(complaint.coffee, sender()), self());
                 }).
-                matchAny(this::unhandled).build()
-        );
+                matchAny(this::unhandled).build();
     }
 
     public static Props props(ActorRef coffeeHouse, ActorRef barista, int maxComplaintCount) {

@@ -7,10 +7,7 @@ package com.lightbend.training.coffeehouse;
 import akka.actor.AbstractActorWithStash;
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.japi.pf.ReceiveBuilder;
-import scala.PartialFunction;
 import scala.concurrent.duration.FiniteDuration;
-import scala.runtime.BoxedUnit;
 
 import java.util.Random;
 
@@ -22,44 +19,49 @@ public class Barista extends AbstractActorWithStash {
 
     private final int accuracy;
 
+    private Receive initial;
+
+    private Receive ready;
+
+    private Receive busy;
+
     public Barista(FiniteDuration prepareCoffeeDuration, int accuracy) {
         this.prepareCoffeeDuration = prepareCoffeeDuration;
         this.accuracy = accuracy;
 
-        receive(ReceiveBuilder.
-                match(PrepareCoffee.class, prepareCoffee -> {
-                    Thread.sleep(this.prepareCoffeeDuration.toMillis()); // Attention: Never block a thread in "real" code!
-                    sender().tell(new CoffeePrepared(pickCoffee(prepareCoffee.coffee), prepareCoffee.guest), self());
-                }).
-                matchAny(this::unhandled).build()
-        );
+        initial =
+                receiveBuilder().
+                        match(PrepareCoffee.class, prepareCoffee -> {
+                            Thread.sleep(this.prepareCoffeeDuration.toMillis()); // Attention: Never block a thread in "real" code!
+                            getSender().tell(new CoffeePrepared(pickCoffee(prepareCoffee.coffee), prepareCoffee.guest), self());
+                        }).build();
 
+//        ready =
+//                receiveBuilder().
+//                        match(PrepareCoffee.class, prepareCoffee -> {
+//                            scheduleCoffeePrepared(prepareCoffee.coffee, prepareCoffee.guest);
+//                            getContext().become(busy);
+//                        }).build();
+//
+//        busy =
+//                receiveBuilder().
+//                        match(CoffeePrepared.class, coffeePrepared -> {
+//                            getSender().tell(coffeePrepared, self());
+//                            unstashAll();
+//                            getContext().become(ready);
+//                        }).
+//                        matchAny(msg -> stash()).build();
 
-//        receive(ready());
+    }
+
+    @Override
+    public Receive createReceive() {
+        return initial;
     }
 
     public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy) {
         return Props.create(Barista.class, () -> new Barista(prepareCoffeeDuration, accuracy));
     }
-
-//    private PartialFunction<Object, BoxedUnit> ready() {
-//        return ReceiveBuilder.
-//                match(PrepareCoffee.class, prepareCoffee -> {
-//                    scheduleCoffeePrepared(prepareCoffee.coffee, prepareCoffee.guest);
-//                    context().become(busy(sender()));
-//                }).
-//                matchAny(this::unhandled).build();
-//    }
-
-//    private PartialFunction<Object, BoxedUnit> busy(ActorRef waiter) {
-//        return ReceiveBuilder.
-//                match(CoffeePrepared.class, coffeePrepared -> {
-//                    waiter.tell(coffeePrepared, self());
-//                    unstashAll();
-//                    context().become(ready());
-//                }).
-//                matchAny(msg -> stash()).build();
-//    }
 
     private Coffee pickCoffee(Coffee coffee) {
         return new Random().nextInt(100) < accuracy ? coffee : Coffee.orderOther(coffee);
