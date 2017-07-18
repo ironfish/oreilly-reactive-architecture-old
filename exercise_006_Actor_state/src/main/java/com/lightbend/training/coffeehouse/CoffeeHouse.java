@@ -7,24 +7,21 @@ package com.lightbend.training.coffeehouse;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.japi.pf.ReceiveBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class CoffeeHouse extends AbstractLoggingActor {
 
     private final ActorRef waiter = createWaiter();
-//            context().actorOf(Waiter.props(), "waiter");
 
     public CoffeeHouse() {
         log().debug("CoffeeHouse Open");
+   }
 
-        receive(ReceiveBuilder.
-                match(CreateGuest.class, createGuest ->
-                        createGuest(createGuest.favoriteCoffee)
-                ).
-                matchAny(this::unhandled).build()
-        );
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().match(
+                CreateGuest.class, createGuest -> createGuest(createGuest.favoriteCoffee)).build();
     }
 
     public static Props props() {
@@ -32,10 +29,10 @@ public class CoffeeHouse extends AbstractLoggingActor {
     }
 
     protected ActorRef createWaiter() {
-        return context().actorOf(Waiter.props(), "waiter");
+        return getContext().actorOf(Waiter.props(), "waiter");
     }
     protected void createGuest(Coffee favoriteCoffee) {
-        context().actorOf(Guest.props(waiter, favoriteCoffee));
+        getContext().actorOf(Guest.props(waiter, favoriteCoffee));
     }
 
     public static final class CreateGuest {

@@ -5,13 +5,15 @@
 package com.lightbend.training.coffeehouse;
 
 import akka.actor.AbstractLoggingActor;
-import akka.japi.pf.ReceiveBuilder;
 
 public class CoffeeHouse extends AbstractLoggingActor {
 
     public CoffeeHouse() {
-        receive(ReceiveBuilder.
-                matchAny(o -> log().info("Coffee Brewing")).build()
-        );
+    }
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
+                matchAny(o -> log().info("Coffee Brewing")).build();
     }
 }

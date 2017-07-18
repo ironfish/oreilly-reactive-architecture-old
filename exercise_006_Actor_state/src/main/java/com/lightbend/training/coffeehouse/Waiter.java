@@ -6,20 +6,20 @@ package com.lightbend.training.coffeehouse;
 
 import akka.actor.AbstractLoggingActor;
 import akka.actor.Props;
-import akka.japi.pf.ReceiveBuilder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Waiter extends AbstractLoggingActor {
 
     public Waiter() {
+    }
 
-        receive(ReceiveBuilder.
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(ServeCoffee.class, serveCoffee ->
                         sender().tell(new CoffeeServed(serveCoffee.coffee), self())
-                ).
-                matchAny(this::unhandled).build()
-        );
+                ).build();
     }
 
     public static Props props() {
