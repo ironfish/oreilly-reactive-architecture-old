@@ -4,6 +4,7 @@
 
 package com.lightbend.training.coffeehouse;
 
+import akka.actor.AbstractActor;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -23,14 +24,15 @@ public class Barista extends AbstractLoggingActor {
     public Barista(FiniteDuration prepareCoffeeDuration, int accuracy) {
         this.prepareCoffeeDuration = prepareCoffeeDuration;
         this.accuracy = accuracy;
+    }
 
-        receive(ReceiveBuilder.
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(PrepareCoffee.class, prepareCoffee -> {
                     Thread.sleep(this.prepareCoffeeDuration.toMillis()); // Attention: Never block a thread in "real" code!
                     sender().tell(new CoffeePrepared(pickCoffee(prepareCoffee.coffee), prepareCoffee.guest), self());
-                }).
-                matchAny(this::unhandled).build()
-        );
+                }).build();
     }
 
     public static Props props(FiniteDuration prepareCoffeeDuration, int accuracy) {

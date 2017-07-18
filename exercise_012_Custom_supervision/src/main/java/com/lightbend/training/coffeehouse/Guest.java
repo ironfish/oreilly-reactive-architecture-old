@@ -4,6 +4,7 @@
 
 package com.lightbend.training.coffeehouse;
 
+import akka.actor.AbstractActor;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -28,8 +29,11 @@ public class Guest extends AbstractLoggingActor {
         this.finishCoffeeDuration = finishCoffeeDuration;
         this.caffeineLimit = caffeineLimit;
         orderFavoriteCoffee();
+    }
 
-        receive(ReceiveBuilder.
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(Waiter.CoffeeServed.class, coffeeServed -> {
                     coffeeCount++;
                     log().info("Enjoying my {} yummy {}!", coffeeCount, coffeeServed.coffee);
@@ -40,9 +44,7 @@ public class Guest extends AbstractLoggingActor {
                 }).
                 match(CoffeeFinished.class, coffeeFinished ->
                         orderFavoriteCoffee()
-                ).
-                matchAny(this::unhandled).build()
-        );
+                ).build();
     }
 
     public static Props props(final ActorRef waiter, final Coffee favoriteCoffee,

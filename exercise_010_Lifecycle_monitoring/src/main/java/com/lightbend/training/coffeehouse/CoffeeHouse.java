@@ -4,10 +4,7 @@
 
 package com.lightbend.training.coffeehouse;
 
-import akka.actor.AbstractLoggingActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.Terminated;
+import akka.actor.*;
 import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
@@ -44,8 +41,11 @@ public class CoffeeHouse extends AbstractLoggingActor {
     public CoffeeHouse(int caffeineLimit) {
         log().debug("CoffeeHouse Open");
         this.caffeineLimit = caffeineLimit;
+    }
 
-        receive(ReceiveBuilder.
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(CreateGuest.class, createGuest -> {
                     final ActorRef guest = createGuest(createGuest.favoriteCoffee);
                     addGuestToBookkeeper(guest);
@@ -57,13 +57,11 @@ public class CoffeeHouse extends AbstractLoggingActor {
                 match(ApproveCoffee.class, approveCoffee -> {
                     log().info("Sorry, {}, but you have reached your limit.", approveCoffee.guest.path().name());
                     context().stop(approveCoffee.guest);
-                }).
+                }).build();
 //                match(Terminated.class, terminated -> {
 //                    log().info("Thanks, {}, for being our guest!", terminated.getActor());
 //                    removeGuestFromBookkeeper(terminated.getActor());
-//                }).
-                matchAny(this::unhandled).build()
-        );
+//                }).build();
     }
 
     public static Props props(int caffeineLimit) {

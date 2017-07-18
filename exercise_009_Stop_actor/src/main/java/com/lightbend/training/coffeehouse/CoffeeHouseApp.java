@@ -67,12 +67,13 @@ public class CoffeeHouseApp implements Terminal {
 
     private static Props printerProps(ActorRef coffeeHouse) {
         return Props.create(AbstractLoggingActor.class, () -> new AbstractLoggingActor() {
+            @Override
+            public Receive createReceive() {
+                return receiveBuilder().matchAny(o -> log().info(o.toString())).build();
+            }
+
             {
                 coffeeHouse.tell("Brew Coffee", self());
-
-                receive(ReceiveBuilder.
-                        matchAny(o -> log().info(o.toString())).build()
-                );
             }
         });
     }
