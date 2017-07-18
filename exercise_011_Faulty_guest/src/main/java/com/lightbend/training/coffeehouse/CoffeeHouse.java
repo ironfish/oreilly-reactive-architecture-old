@@ -97,7 +97,7 @@ public class CoffeeHouse extends AbstractLoggingActor {
 
     protected ActorRef createGuest(Coffee favoriteCoffee) {
 //    protected ActorRef createGuest(Coffee favoriteCoffee, int caffeineLimit) {
-        return context().actorOf(Guest.props(waiter, favoriteCoffee, guestFinishCoffeeDuration, caffeineLimit));
+        return getContext().actorOf(Guest.props(waiter, favoriteCoffee, guestFinishCoffeeDuration));
     }
 
     public static final class CreateGuest {

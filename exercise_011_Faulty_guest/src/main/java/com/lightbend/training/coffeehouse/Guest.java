@@ -48,8 +48,7 @@ public class Guest extends AbstractLoggingActor {
                 ).build();
     }
 
-    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee,
-                              final FiniteDuration finishCoffeeDuration) {
+    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee, final FiniteDuration finishCoffeeDuration) {
 //    public static Props props(final ActorRef waiter, final Coffee favoriteCoffee,
 //                              final FiniteDuration finishCoffeeDuration, final int caffeineLimit) {
 //        return Props.create(Guest.class,
