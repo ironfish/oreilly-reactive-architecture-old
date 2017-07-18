@@ -4,10 +4,8 @@
 
 package com.lightbend.training.coffeehouse;
 
-import akka.actor.AbstractActor;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.Props;
-import akka.japi.pf.ReceiveBuilder;
 
 public class Guest extends AbstractLoggingActor {
 

@@ -4,9 +4,10 @@
 
 package com.lightbend.training.coffeehouse;
 
-import akka.actor.*;
-import akka.japi.pf.DeciderBuilder;
-import akka.japi.pf.ReceiveBuilder;
+import akka.actor.AbstractLoggingActor;
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import akka.actor.Terminated;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 

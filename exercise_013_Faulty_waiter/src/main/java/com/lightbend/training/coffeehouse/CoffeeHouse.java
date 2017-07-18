@@ -6,7 +6,6 @@ package com.lightbend.training.coffeehouse;
 
 import akka.actor.*;
 import akka.japi.pf.DeciderBuilder;
-import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 

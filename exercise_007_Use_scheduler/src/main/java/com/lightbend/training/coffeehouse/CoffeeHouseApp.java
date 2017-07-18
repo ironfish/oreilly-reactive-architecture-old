@@ -9,7 +9,6 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.japi.pf.ReceiveBuilder;
 import scala.concurrent.Await;
 import scala.concurrent.duration.Duration;
 

@@ -3,7 +3,6 @@ package com.lightbend.training.coffeehouse;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.japi.pf.ReceiveBuilder;
 import akka.testkit.JavaTestKit;
 import org.junit.Test;
 
