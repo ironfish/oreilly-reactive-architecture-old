@@ -4,6 +4,7 @@
 
 package com.lightbend.training.coffeehouse;
 
+import akka.actor.AbstractActor;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -45,8 +46,11 @@ public class CoffeeHouse extends AbstractLoggingActor {
     public CoffeeHouse(int caffeineLimit) {
         log().debug("CoffeeHouse Open");
         this.caffeineLimit = caffeineLimit;
+    }
 
-        receive(ReceiveBuilder.
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(CreateGuest.class, createGuest -> {
                     final ActorRef guest = createGuest(createGuest.favoriteCoffee);
                     addGuestToBookkeeper(guest);
@@ -57,9 +61,7 @@ public class CoffeeHouse extends AbstractLoggingActor {
                 match(ApproveCoffee.class, approveCoffee -> {
                     log().info("Sorry, {}, but you have reached your limit.", approveCoffee.guest.path().name());
                     context().stop(approveCoffee.guest);
-                }).
-                matchAny(this::unhandled).build()
-        );
+                }).build();
     }
 
     public static Props props(int caffeineLimit) {

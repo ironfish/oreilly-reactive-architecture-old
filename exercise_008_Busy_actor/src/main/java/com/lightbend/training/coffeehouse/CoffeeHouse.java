@@ -4,6 +4,7 @@
 
 package com.lightbend.training.coffeehouse;
 
+import akka.actor.AbstractActor;
 import akka.actor.AbstractLoggingActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -34,13 +35,14 @@ public class CoffeeHouse extends AbstractLoggingActor {
 
     public CoffeeHouse() {
         log().debug("CoffeeHouse Open");
+    }
 
-        receive(ReceiveBuilder.
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
                 match(CreateGuest.class, createGuest ->
                         createGuest(createGuest.favoriteCoffee)
-                ).
-                matchAny(this::unhandled).build()
-        );
+                ).build();
     }
 
     public static Props props() {

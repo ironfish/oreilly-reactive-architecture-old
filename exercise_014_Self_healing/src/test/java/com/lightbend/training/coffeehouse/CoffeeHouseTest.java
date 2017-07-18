@@ -115,12 +115,14 @@ public class CoffeeHouseTest extends BaseAkkaTestCase {
 
                 @Override
                 protected ActorRef createWaiter() { //stubbing out the waiter actor to always throw exception
-                    return context().actorOf(Props.create(AbstractActor.class, () -> new AbstractActor() {{
-                        receive(
-                                ReceiveBuilder.matchAny(o -> {
-                                    throw new Waiter.FrustratedException(new Coffee.Akkaccino(), system.deadLetters());
-                                }).build());
-                    }}), "waiter");
+                    return context().actorOf(Props.create(AbstractActor.class, () -> new AbstractActor() {
+                        @Override
+                        public Receive createReceive() {
+                            return receiveBuilder().matchAny(o -> {
+                                //throw new Waiter.FrustratedException(new Coffee.Akkaccino(), system.deadLetters());
+                            }).build();
+                        }
+                    }), "waiter");
                 }
             });
             ActorRef waiter = expectActor(this, "/user/resend-prepare-coffee/waiter");
